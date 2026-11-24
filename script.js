@@ -9,8 +9,13 @@ const emptyState = document.getElementById('empty-state');
 const clearBtn = document.getElementById('clear-btn');
 const filterBtns = document.querySelectorAll('.filter-btn');
 const completedCount = document.getElementById('completed-count');
-const activeCount = document.getElementById('active-count');
 const totalCount = document.getElementById('total-count');
+const progressFill = document.getElementById('progress-fill');
+const progressPercent = document.getElementById('progress-percent');
+const dateDisplay = document.getElementById('date-display');
+const countAll = document.getElementById('count-all');
+const countActive = document.getElementById('count-active');
+const countCompleted = document.getElementById('count-completed');
 
 // App State
 let tasks = [];
@@ -18,10 +23,24 @@ let currentFilter = 'all';
 
 // Initialize app
 document.addEventListener('DOMContentLoaded', () => {
+    setCurrentDate();
     loadTasks();
     renderTasks();
     setupEventListeners();
 });
+
+// Set current date
+function setCurrentDate() {
+    const days = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
+    const months = ['Января', 'Февраля', 'Марта', 'Апреля', 'Мая', 'Июня', 'Июля', 'Августа', 'Сентября', 'Октября', 'Ноября', 'Декабря'];
+
+    const today = new Date();
+    const dayName = days[today.getDay()];
+    const date = today.getDate();
+    const monthName = months[today.getMonth()];
+
+    dateDisplay.textContent = `${dayName}, ${date} ${monthName}`;
+}
 
 // Setup Event Listeners
 function setupEventListeners() {
@@ -146,6 +165,7 @@ function renderTasks() {
 
     updateStats();
     updateClearButton();
+    updateProgress();
 }
 
 // Update Statistics
@@ -155,8 +175,20 @@ function updateStats() {
     const total = tasks.length;
 
     completedCount.textContent = completed;
-    activeCount.textContent = active;
     totalCount.textContent = total;
+    countAll.textContent = total;
+    countActive.textContent = active;
+    countCompleted.textContent = completed;
+}
+
+// Update Progress Bar
+function updateProgress() {
+    const total = tasks.length;
+    const completed = tasks.filter((task) => task.completed).length;
+    const percentage = total === 0 ? 0 : Math.round((completed / total) * 100);
+
+    progressFill.style.width = percentage + '%';
+    progressPercent.textContent = percentage + '%';
 }
 
 // Update Clear Button State
