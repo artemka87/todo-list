@@ -3,69 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To-Do List | Мой список задач</title>
+    <title>To-Do | Список задач</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <div class="todo-wrapper">
-            <header class="header">
-                <div class="header-content">
-                    <h1><i class="fas fa-tasks"></i> Мой список задач</h1>
-                    <p class="subtitle">Планируй, выполняй, побеждай!</p>
-                </div>
-                <div class="stats">
-                    <span class="stat-item"><i class="fas fa-check-circle"></i> <span id="completed-count">0</span></span>
-                    <span class="stat-item"><i class="fas fa-circle"></i> <span id="total-count">0</span></span>
-                </div>
-            </header>
+    <main class="app">
+        <div class="sidebar">
+            <div class="app-header">
+                <h1 class="app-title">Tasks</h1>
+                <p class="app-subtitle">Управляй своим днём</p>
+            </div>
 
-            <div class="input-section">
+            <div class="stats-panel">
+                <div class="stat">
+                    <div class="stat-value" id="total-count">0</div>
+                    <div class="stat-label">Всего</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="active-count">0</div>
+                    <div class="stat-label">Активных</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="completed-count">0</div>
+                    <div class="stat-label">Готово</div>
+                </div>
+            </div>
+
+            <nav class="filters">
+                <button class="filter-btn active" data-filter="all">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="8" y1="6" x2="21" y2="6"></line>
+                        <line x1="8" y1="12" x2="21" y2="12"></line>
+                        <line x1="8" y1="18" x2="21" y2="18"></line>
+                        <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                        <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                        <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                    </svg>
+                    <span>Все</span>
+                </button>
+                <button class="filter-btn" data-filter="active">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="1"></circle>
+                        <path d="M12 1v6m0 6v4"></path>
+                    </svg>
+                    <span>Активные</span>
+                </button>
+                <button class="filter-btn" data-filter="completed">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    <span>Выполненные</span>
+                </button>
+            </nav>
+        </div>
+
+        <div class="main-content">
+            <div class="input-area">
                 <div class="input-wrapper">
                     <input
                         type="text"
                         id="task-input"
                         class="task-input"
-                        placeholder="Введи новую задачу..."
+                        placeholder="Добавь новую задачу..."
                         autocomplete="off"
                     >
                     <button class="add-btn" id="add-btn">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                </div>
-                <div class="filter-buttons">
-                    <button class="filter-btn active" data-filter="all">
-                        <i class="fas fa-th-list"></i> Все
-                    </button>
-                    <button class="filter-btn" data-filter="active">
-                        <i class="fas fa-circle"></i> Активные
-                    </button>
-                    <button class="filter-btn" data-filter="completed">
-                        <i class="fas fa-check-circle"></i> Выполненные
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
                     </button>
                 </div>
             </div>
 
             <div class="tasks-container">
-                <ul class="task-list" id="task-list">
-                    <!-- Задачи будут добавлены сюда -->
-                </ul>
+                <ul class="task-list" id="task-list"></ul>
                 <div class="empty-state" id="empty-state">
-                    <div class="empty-icon">
-                        <i class="fas fa-inbox"></i>
-                    </div>
-                    <p>Нет задач. Добавь свою первую!</p>
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M9 11l3 3L22 4"></path>
+                        <path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <h2>Нечего делать!</h2>
+                    <p>Добавь первую задачу, чтобы начать</p>
                 </div>
             </div>
 
-            <footer class="footer">
+            <div class="footer-actions">
                 <button class="clear-btn" id="clear-btn">
-                    <i class="fas fa-trash"></i> Очистить выполненные
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    </svg>
+                    Удалить готовые
                 </button>
-            </footer>
+            </div>
         </div>
-    </div>
+    </main>
 
     <script src="script.js"></script>
 </body>
